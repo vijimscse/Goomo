@@ -1,7 +1,7 @@
 package com.goomo.io;
 
 import com.goomo.io.dto.request.SearchRequest;
-import com.goomo.io.dto.response.Meta;
+import com.goomo.io.dto.response.SearchTrackId;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -16,7 +16,7 @@ import retrofit2.http.Path;
 public interface APIEndPoints {
 
     @POST("flights/one_way/search")
-    Call<Meta> initiateSearch(@Body SearchRequest searchRequest);
+    Call<SearchTrackId> initiateSearch(@Body SearchRequest searchRequest);
 
     @GET("flights/one_way/{search_track_id}")
     Call<String> fetchSearchResults(@Path("search_track_id") String searchTrackID);

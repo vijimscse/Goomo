@@ -25,7 +25,7 @@ import com.goomo.base.BaseFragment;
 import com.goomo.dagger.module.SearchFlightsModule;
 import com.goomo.io.dto.request.Location;
 import com.goomo.io.dto.request.SearchRequest;
-import com.goomo.io.dto.response.Meta;
+import com.goomo.io.dto.response.SearchTrackId;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -220,10 +220,12 @@ public class SearchFlightFragment extends BaseFragment implements SearchView {
     }
 
     @Override
-    public void setResponse(Meta response) {
-        String searchTrackId = response.getSearchTrackId();
-        if (!TextUtils.isEmpty(searchTrackId)) {
-            mSearchFlightFragmentListener.onSearchTrackIdReceived(searchTrackId);
+    public void setResponse(SearchTrackId response) {
+        if (response.getMeta() != null) {
+            String searchTrackId = response.getMeta().getSearchTrackId();
+            if (!TextUtils.isEmpty(searchTrackId)) {
+                mSearchFlightFragmentListener.onSearchTrackIdReceived(searchTrackId);
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 import com.goomo.io.IOManager;
 import com.goomo.io.dto.request.SearchRequest;
 import com.goomo.io.dto.response.Meta;
+import com.goomo.io.dto.response.SearchTrackId;
 import com.goomo.utils.NetworkUtility;
 
 import retrofit2.Call;
@@ -30,9 +31,9 @@ public class SearchFlightsPresenter {
 
         if (NetworkUtility.isInternetOn(mContext)) {
             IOManager.initiateSearch(searchRequest,
-                    new Callback<Meta>() {
+                    new Callback<SearchTrackId>() {
                         @Override
-                        public void onResponse(Call<Meta> call, Response<Meta> response) {
+                        public void onResponse(Call<SearchTrackId> call, Response<SearchTrackId> response) {
                             mView.hideLoading();
                             if (response.isSuccessful() && response.body() != null) {
                                 Log.d(TAG, "" + response.body());
@@ -43,7 +44,7 @@ public class SearchFlightsPresenter {
                         }
 
                         @Override
-                        public void onFailure(Call<Meta> call, Throwable t) {
+                        public void onFailure(Call<SearchTrackId> call, Throwable t) {
                             mView.hideLoading();
                             mView.showError();
                             Log.d(TAG, "Error");

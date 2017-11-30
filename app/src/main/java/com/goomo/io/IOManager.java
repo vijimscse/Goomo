@@ -3,7 +3,7 @@ package com.goomo.io;
 import android.support.annotation.NonNull;
 
 import com.goomo.io.dto.request.SearchRequest;
-import com.goomo.io.dto.response.Meta;
+import com.goomo.io.dto.response.SearchTrackId;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -53,9 +53,9 @@ public class IOManager {
     }
 
     public static void initiateSearch(SearchRequest searchRequest,
-                                      Callback<Meta> callback) {
+                                      Callback<SearchTrackId> callback) {
         APIEndPoints apiEndPoints = getRetrofit().create(APIEndPoints.class);
-        Call<Meta> call = apiEndPoints.initiateSearch(searchRequest);
+        Call<SearchTrackId> call = apiEndPoints.initiateSearch(searchRequest);
         call.enqueue(callback);
     }
 

@@ -1,7 +1,7 @@
 package com.goomo.flight.search;
 
 import com.goomo.base.BaseView;
-import com.goomo.io.dto.response.Meta;
+import com.goomo.io.dto.response.SearchTrackId;
 
 import java.util.Date;
 
@@ -12,5 +12,5 @@ import java.util.Date;
 public interface SearchView extends BaseView {
 
     void updateDepartureDateView(Date time);
-    void setResponse(Meta response);
+    void setResponse(SearchTrackId response);
 }

@@ -1,6 +1,7 @@
 package com.goomo.flight;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -19,21 +20,33 @@ public class SearchFlightsActivity extends BaseActivity implements SearchFlightF
 
         setContentView(R.layout.activity_main);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-
         setActivityTitle(R.string.search_flights);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.addToBackStack(null).replace(R.id.container_body, SearchFlightFragment.newInstance());
+        fragmentTransaction.add(R.id.container_body, SearchFlightFragment.newInstance());
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.container_body);
+                if (fragment instanceof FlightResultsFragment) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                } else {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                }
+            }
+        });
     }
 
     @Override
     public void onSearchTrackIdReceived(String searchTrackId) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.addToBackStack(null).add(R.id.container_body, FlightResultsFragment.newInstance(searchTrackId));
-        fragmentTransaction.commit();
+        fragmentTransaction.replace(R.id.container_body, FlightResultsFragment.newInstance(searchTrackId));
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commitAllowingStateLoss();
     }
 }

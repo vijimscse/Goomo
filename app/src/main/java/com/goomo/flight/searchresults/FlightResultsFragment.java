@@ -31,6 +31,8 @@ public class FlightResultsFragment extends BaseFragment implements BaseView {
         FlightResultsFragment flightResultsFragment = new FlightResultsFragment();
         Bundle bundle = new Bundle();
         bundle.putString(SEARCH_TRACK_ID, searchTrackId);
+        flightResultsFragment.setArguments(bundle);
+
         return flightResultsFragment;
     }
 
@@ -54,7 +56,7 @@ public class FlightResultsFragment extends BaseFragment implements BaseView {
 
         Bundle bundle = getArguments();
 
-        if (!TextUtils.isEmpty(bundle.getString(SEARCH_TRACK_ID))) {
+        if (bundle != null && !TextUtils.isEmpty(bundle.getString(SEARCH_TRACK_ID))) {
             //TODO: Fetch the flight results.
         }
     }
