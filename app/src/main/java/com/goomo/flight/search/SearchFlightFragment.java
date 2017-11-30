@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.goomo.GoomoApplication;
@@ -56,6 +57,9 @@ public class SearchFlightFragment extends BaseFragment implements SearchFlightsV
 
     @BindView(R.id.traveller_class_input_value)
     Spinner mClassType;
+
+    @BindView(R.id.reverse_direction)
+    ImageButton mChangeDirection;
 
     @Inject
     SearchFlightsPresenter mPresenter;
@@ -104,6 +108,7 @@ public class SearchFlightFragment extends BaseFragment implements SearchFlightsV
         initialiseAutoCompleteViews(mSource);
         initialiseAutoCompleteViews(mDestination);
         addTextListeners();
+        mChangeDirection.setEnabled(false);
     }
 
     private void addTextListeners() {
@@ -111,9 +116,12 @@ public class SearchFlightFragment extends BaseFragment implements SearchFlightsV
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 mSelectedSource = mSource.getText().toString();
-                if (!TextUtils.isEmpty(mSelectedDestination) &&
-                        mSelectedSource.equalsIgnoreCase(mSelectedDestination)) {
-                    mSource.setError(getString(R.string.source_and_destination_same_error));
+                if (!TextUtils.isEmpty(mSelectedDestination)) {
+                    if (mSelectedSource.equalsIgnoreCase(mSelectedDestination)) {
+                        mSource.setError(getString(R.string.source_and_destination_same_error));
+                    } else {
+                        mChangeDirection.setEnabled(true);
+                    }
                 }
             }
         });
@@ -121,9 +129,12 @@ public class SearchFlightFragment extends BaseFragment implements SearchFlightsV
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 mSelectedDestination = mDestination.getText().toString();
-                if (!TextUtils.isEmpty(mSelectedSource) &&
-                        mSelectedSource.equalsIgnoreCase(mSelectedDestination)) {
-                    mDestination.setError(getString(R.string.source_and_destination_same_error));
+                if (!TextUtils.isEmpty(mSelectedSource)) {
+                    if (mSelectedSource.equalsIgnoreCase(mSelectedDestination)) {
+                        mDestination.setError(getString(R.string.source_and_destination_same_error));
+                    } else {
+                        mChangeDirection.setEnabled(true);
+                    }
                 }
             }
         });
@@ -137,6 +148,7 @@ public class SearchFlightFragment extends BaseFragment implements SearchFlightsV
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 mSelectedSource = null;
                 mSource.setError(null);
+                mChangeDirection.setEnabled(false);
             }
 
             @Override
@@ -154,6 +166,7 @@ public class SearchFlightFragment extends BaseFragment implements SearchFlightsV
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 mSelectedDestination = null;
                 mDestination.setError(null);
+                mChangeDirection.setEnabled(false);
             }
 
             @Override
@@ -175,6 +188,18 @@ public class SearchFlightFragment extends BaseFragment implements SearchFlightsV
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 
         mDepartureDate.setText(sdf.format(time));
+    }
+
+    @OnClick(R.id.reverse_direction)
+    public void onReverseDirection() {
+        String tempSelectedSource = mSelectedSource;
+        String tempSelectedDestination = mSelectedDestination;
+        mSource.setText(tempSelectedDestination);
+        mDestination.setText(tempSelectedSource);
+
+        mSelectedSource = mSource.getText().toString();
+        mSelectedDestination = mDestination.getText().toString();
+        mChangeDirection.setEnabled(true);
     }
 
     @OnClick(R.id.departure_date)
