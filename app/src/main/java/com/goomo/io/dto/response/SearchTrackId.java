@@ -11,7 +11,7 @@ public class SearchTrackId implements Parcelable {
 
     @SerializedName("meta")
     @Expose
-    private Meta meta;
+    private SearchTrackIdMeta meta;
     public final static Creator<SearchTrackId> CREATOR = new Creator<SearchTrackId>() {
         @SuppressWarnings({
                 "unchecked"
@@ -27,17 +27,17 @@ public class SearchTrackId implements Parcelable {
     };
 
     protected SearchTrackId(Parcel in) {
-        this.meta = ((Meta) in.readValue((Meta.class.getClassLoader())));
+        this.meta = ((SearchTrackIdMeta) in.readValue((SearchTrackIdMeta.class.getClassLoader())));
     }
 
     public SearchTrackId() {
     }
 
-    public Meta getMeta() {
+    public SearchTrackIdMeta getMeta() {
         return meta;
     }
 
-    public void setMeta(Meta meta) {
+    public void setMeta(SearchTrackIdMeta meta) {
         this.meta = meta;
     }
 

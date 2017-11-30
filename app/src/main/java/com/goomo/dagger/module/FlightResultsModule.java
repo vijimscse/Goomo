@@ -2,7 +2,7 @@ package com.goomo.dagger.module;
 
 import com.goomo.flight.searchresults.FlightResultsFragment;
 import com.goomo.flight.searchresults.FlightResultsPresenter;
-import com.goomo.base.BaseView;
+import com.goomo.flight.searchresults.FlightResultsView;
 
 import dagger.Module;
 import dagger.Provides;
@@ -13,9 +13,9 @@ import dagger.Provides;
 @Module
 public class FlightResultsModule {
     private final FlightResultsFragment mFragment;
-    private final BaseView mView;
+    private final FlightResultsView mView;
 
-    public FlightResultsModule(FlightResultsFragment fragment, BaseView view) {
+    public FlightResultsModule(FlightResultsFragment fragment, FlightResultsView view) {
         mFragment = fragment;
         mView = view;
     }
@@ -28,13 +28,13 @@ public class FlightResultsModule {
 
     @Provides
     @ActivityScope
-    BaseView provideView() {
+    FlightResultsView provideView() {
         return mView;
     }
 
     @Provides
     @ActivityScope
-    FlightResultsPresenter providePresenter(FlightResultsFragment flightResultsFragment, BaseView view) {
+    FlightResultsPresenter providePresenter(FlightResultsFragment flightResultsFragment, FlightResultsView view) {
         return new FlightResultsPresenter(view, flightResultsFragment.getContext());
     }
 }

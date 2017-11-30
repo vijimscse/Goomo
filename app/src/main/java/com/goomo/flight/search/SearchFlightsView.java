@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by VijayaLakshmi.IN on 29-11-2017.
  */
 
-public interface SearchView extends BaseView {
+public interface SearchFlightsView extends BaseView {
 
     void updateDepartureDateView(Date time);
     void setResponse(SearchTrackId response);

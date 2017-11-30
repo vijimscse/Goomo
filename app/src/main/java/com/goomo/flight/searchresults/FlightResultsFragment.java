@@ -12,17 +12,22 @@ import android.view.ViewGroup;
 import com.goomo.GoomoApplication;
 import com.goomo.R;
 import com.goomo.base.BaseFragment;
-import com.goomo.base.BaseView;
 import com.goomo.dagger.module.FlightResultsModule;
+import com.goomo.io.dto.response.FlightResults;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 
 /**
  * Created by VijayaLakshmi.IN on 25-11-2017.
  */
-public class FlightResultsFragment extends BaseFragment implements BaseView {
+public class FlightResultsFragment extends BaseFragment implements FlightResultsView {
 
     private static final String SEARCH_TRACK_ID = "search_track_id";
+
+    @Inject
+    FlightResultsPresenter mPresenter;
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -57,7 +62,12 @@ public class FlightResultsFragment extends BaseFragment implements BaseView {
         Bundle bundle = getArguments();
 
         if (bundle != null && !TextUtils.isEmpty(bundle.getString(SEARCH_TRACK_ID))) {
-            //TODO: Fetch the flight results.
+            mPresenter.fetchSearchResults(bundle.getString(SEARCH_TRACK_ID));
         }
+    }
+
+    @Override
+    public void setResponse(FlightResults response) {
+
     }
 }

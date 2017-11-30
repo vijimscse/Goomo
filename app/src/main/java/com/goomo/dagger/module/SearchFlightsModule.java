@@ -9,7 +9,7 @@ import android.widget.DatePicker;
 import com.goomo.R;
 import com.goomo.flight.search.SearchFlightFragment;
 import com.goomo.flight.search.SearchFlightsPresenter;
-import com.goomo.flight.search.SearchView;
+import com.goomo.flight.search.SearchFlightsView;
 
 import java.util.Calendar;
 
@@ -22,12 +22,12 @@ import dagger.Provides;
 @Module
 public class SearchFlightsModule {
     private final SearchFlightFragment mFragment;
-    private final SearchView mView;
+    private final SearchFlightsView mView;
     private DatePickerDialog mDatePickerDialog;
     private Calendar mCalendar;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
 
-    public SearchFlightsModule(SearchFlightFragment fragment, SearchView view) {
+    public SearchFlightsModule(SearchFlightFragment fragment, SearchFlightsView view) {
         mFragment = fragment;
         mView = view;
         mCalendar = Calendar.getInstance();
@@ -41,7 +41,7 @@ public class SearchFlightsModule {
 
     @Provides
     @ActivityScope
-    SearchView provideView() {
+    SearchFlightsView provideView() {
         return mView;
     }
 
@@ -79,7 +79,7 @@ public class SearchFlightsModule {
 
     @Provides
     @ActivityScope
-    SearchFlightsPresenter providePresenter(SearchFlightFragment searchFlightFragment, SearchView view) {
+    SearchFlightsPresenter providePresenter(SearchFlightFragment searchFlightFragment, SearchFlightsView view) {
         return new SearchFlightsPresenter(view, searchFlightFragment.getContext());
     }
 }

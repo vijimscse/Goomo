@@ -1,8 +1,15 @@
 package com.goomo.flight.searchresults;
 
 import android.content.Context;
+import android.util.Log;
 
-import com.goomo.base.BaseView;
+import com.goomo.io.IOManager;
+import com.goomo.io.dto.response.FlightResults;
+import com.goomo.utils.NetworkUtility;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by VijayaLakshmi.IN on 29-11-2017.
@@ -10,8 +17,40 @@ import com.goomo.base.BaseView;
 public class FlightResultsPresenter {
 
     private static final String TAG = FlightResultsPresenter.class.getSimpleName();
+    private FlightResultsView mView;
+    private Context mContext;
 
-    public FlightResultsPresenter(BaseView view, Context context) {
+    public FlightResultsPresenter(FlightResultsView view, Context context) {
+        mView = view;
+        mContext = context;
+    }
 
+    public void fetchSearchResults(String searchTrackId) {
+        mView.showLoading();
+
+        if (NetworkUtility.isInternetOn(mContext)) {
+            IOManager.fetchSearchResults(searchTrackId,
+                    new Callback<FlightResults>() {
+                        @Override
+                        public void onResponse(Call<FlightResults> call, Response<FlightResults> response) {
+                            mView.hideLoading();
+                            if (response.isSuccessful() && response.body() != null) {
+                                Log.d(TAG, "" + response.body());
+                                mView.setResponse(response.body());
+                            } else {
+                                mView.showError();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<FlightResults> call, Throwable t) {
+                            mView.hideLoading();
+                            mView.showError();
+                            Log.d(TAG, "Error");
+                        }
+                    });
+        } else {
+            mView.showConnectionErrorMessage();
+        }
     }
 }

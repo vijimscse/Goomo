@@ -38,7 +38,7 @@ import butterknife.OnClick;
  * Created by VijayaLakshmi.IN on 25-11-2017.
  */
 
-public class SearchFlightFragment extends BaseFragment implements SearchView {
+public class SearchFlightFragment extends BaseFragment implements SearchFlightsView {
 
     private static final String TAG = SearchFlightFragment.class.getSimpleName();
     private static final String[] mAirportCodes = {"BOM", "DEL", "MAA", "BLR", "GOI", "CCU", "PNQ", "JAI", "IXC", "HYD"};

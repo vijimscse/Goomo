@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.goomo.io.IOManager;
 import com.goomo.io.dto.request.SearchRequest;
-import com.goomo.io.dto.response.Meta;
 import com.goomo.io.dto.response.SearchTrackId;
 import com.goomo.utils.NetworkUtility;
 
@@ -18,10 +17,10 @@ import retrofit2.Response;
  */
 public class SearchFlightsPresenter {
     private static final String TAG = SearchFlightsPresenter.class.getSimpleName();
-    private SearchView mView;
+    private SearchFlightsView mView;
     private Context mContext;
 
-    public SearchFlightsPresenter(SearchView view, Context context) {
+    public SearchFlightsPresenter(SearchFlightsView view, Context context) {
         mView = view;
         mContext = context;
     }
@@ -47,7 +46,6 @@ public class SearchFlightsPresenter {
                         public void onFailure(Call<SearchTrackId> call, Throwable t) {
                             mView.hideLoading();
                             mView.showError();
-                            Log.d(TAG, "Error");
                         }
                     });
         } else {

@@ -3,6 +3,7 @@ package com.goomo.io;
 import android.support.annotation.NonNull;
 
 import com.goomo.io.dto.request.SearchRequest;
+import com.goomo.io.dto.response.FlightResults;
 import com.goomo.io.dto.response.SearchTrackId;
 
 import okhttp3.OkHttpClient;
@@ -59,9 +60,9 @@ public class IOManager {
         call.enqueue(callback);
     }
 
-    public static void fetchSearchResults(int movieID, Callback<String> callback) {
+    public static void fetchSearchResults(String searchTrackId, Callback<FlightResults> callback) {
         APIEndPoints apiEndPoints = getRetrofit().create(APIEndPoints.class);
-        Call<String> call = apiEndPoints.fetchSearchResults(String.valueOf(movieID));
+        Call<FlightResults> call = apiEndPoints.fetchSearchResults(searchTrackId);
         call.enqueue(callback);
     }
 }
