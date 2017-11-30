@@ -1,0 +1,58 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="buttonStyle">@style/defaultButtonStyle</item>
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorTertiary">@color/textColorPrimary</item>
+        <item name="android:textViewStyle">@style/defaultTextViewStyle</item>
+        <item name="android:editTextStyle">@style/defaultEditTextViewStyle</item>
+        <item name="android:alertDialogTheme">@style/AlertDialogCustom</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
+    </style>
+
+    <!-- Default Button Style -->
+    <style name="defaultButtonStyle" parent="android:style/Widget.Button">
+        <item name="android:fontFamily">helvetica</item>
+        <item name="android:background">@color/button_background</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:padding">@dimen/dimen_8</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">@dimen/buttons_font_size</item>
+    </style>
+
+    <!--Default Alert Dialog-->
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!-- Used for the buttons -->
+        <item name="colorAccent">@color/colorPrimary</item>
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+    </style>
+
+    <!-- Default Text view styles -->
+    <style name="defaultTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">helvetica</item>
+        <item name="android:textSize">@dimen/body_font_size</item>
+    </style>
+
+    <!-- Default Text view styles -->
+    <style name="defaultEditTextViewStyle" parent="android:Widget.EditText">
+        <item name="android:fontFamily">helvetica</item>
+        <item name="android:textSize">@dimen/body_font_size</item>
+        <item name="android:textColorHint">@color/gray</item>
+    </style>
+
+
+
+</resources>

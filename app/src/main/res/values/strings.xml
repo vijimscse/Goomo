@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Goomo</string>
+    <string name="search_flights">Search Flights</string>
+    <string name="source">Source</string>
+    <string name="destination">Destination</string>
+    <string name="date_of_departure">Departure date</string>
+    <string name="travellers">Travellers</string>
+    <string name="travellers_input_default_value">1 Adult</string>
+    <string name="traveller_class">Class</string>
+    <string name="traveller_class_input_value">Economy</string>
+    <string name="generic_error">Uh oh, seems like some network issue. Please try again in a short while</string>
+    <string name="network_error">Something seems to have gone wrong. Please check your internet connection!!</string>
+    <string name="search">SEARCH</string>
+    <string name="source_and_destination_same_error">Source and destination cannot be same</string>
+    <string name="select_source_from_suggestions">Select source from given suggestions</string>
+    <string name="select_dest_from_suggestions">Select destination from given suggestions</string>
+    <string name="select_departure_date">Select departure date</string>
+
+</resources>

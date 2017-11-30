@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="action_bar_elevation">4dp</dimen>
+    <dimen name="dimen_8">8dp</dimen>
+    <dimen name="buttons_font_size">16sp</dimen>
+    <dimen name="body_font_size">14sp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="dimen_5">5dp</dimen>
+    <dimen name="dimen_50">50dp</dimen>
+    <dimen name="dimen_16">16dp</dimen>
+    <dimen name="divider_height">0.2dp</dimen>
+    <dimen name="dimen_20">20dp</dimen>
+</resources>
