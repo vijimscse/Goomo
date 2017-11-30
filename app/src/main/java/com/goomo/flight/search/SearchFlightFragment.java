@@ -2,7 +2,6 @@ package com.goomo.flight.search;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -165,12 +164,10 @@ public class SearchFlightFragment extends BaseFragment implements SearchView {
     }
 
     private void initialiseAutoCompleteViews(AutoCompleteTextView autoCompleteTextView) {
-        //Creating the instance of ArrayAdapter containing list of fruit names
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.select_dialog_item, mAirportCodes);
         autoCompleteTextView.setThreshold(1);//will start working from first character
-        autoCompleteTextView.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
-        autoCompleteTextView.setTextColor(Color.RED);
+        autoCompleteTextView.setAdapter(adapter);
     }
 
     @Override
