@@ -26,18 +26,16 @@ public class FlightListPresenter {
     }
 
     public void fetchSearchResults(String searchTrackId) {
-        mView.showLoading();
-
         if (NetworkUtility.isInternetOn(mContext)) {
             IOManager.fetchFlightResults(searchTrackId,
                     new Callback<FlightResults>() {
                         @Override
                         public void onResponse(Call<FlightResults> call, Response<FlightResults> response) {
-                            mView.hideLoading();
                             if (response != null && response.isSuccessful() && response.body() != null) {
                                 Log.d(TAG, "" + response.body());
                                 mView.setResponse(response.body());
                             } else {
+                                mView.hideLoading();
                                 mView.showError();
                             }
                         }

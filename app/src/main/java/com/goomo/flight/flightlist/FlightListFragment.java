@@ -17,8 +17,8 @@ import com.goomo.base.BaseFragment;
 import com.goomo.dagger.module.FlightListModule;
 import com.goomo.io.dto.response.FlightDetails;
 import com.goomo.io.dto.response.FlightResults;
+import com.goomo.io.dto.response.Meta;
 import com.goomo.io.dto.response.Pricing_;
-import com.goomo.utils.DateUtils;
 import com.goomo.utils.DialogUtility;
 
 import java.util.ArrayList;
@@ -36,6 +36,7 @@ import butterknife.OnClick;
 public class FlightListFragment extends BaseFragment implements FlightListView {
 
     private static final String SEARCH_TRACK_ID = "search_track_id";
+    private static final String STATUS_PENDING = "PENDING";
 
     private ArrayList<FlightDetails> mFlightList = new ArrayList<>();
     private ArrayList<FlightDetails> mActualList = new ArrayList<>();
@@ -60,6 +61,7 @@ public class FlightListFragment extends BaseFragment implements FlightListView {
     private boolean mDescending;
 
     private SortType mPreviousSortType;
+    private String mSearchTrackId;
 
     enum SortType {
         PRICE,
@@ -100,21 +102,33 @@ public class FlightListFragment extends BaseFragment implements FlightListView {
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             mFlightListAdapter = new FlightListAdapter(getActivity(), mFlightList);
             mRecyclerView.setAdapter(mFlightListAdapter);
-            mPresenter.fetchSearchResults(bundle.getString(SEARCH_TRACK_ID));
+            mSearchTrackId = bundle.getString(SEARCH_TRACK_ID);
+            showLoading();
+            mPresenter.fetchSearchResults(mSearchTrackId);
         }
     }
 
     @Override
     public void setResponse(FlightResults response) {
-        if (response != null && response.getFlightDetails() != null && !response.getFlightDetails().isEmpty()) {
-            mActualList.clear();
-            mActualList.addAll(response.getFlightDetails());
-            mFlightList.clear();
-            mFlightList.addAll(mActualList);
-            mDescending = true;
-            sortFlightList(SortType.PRICE);
-            mFlightListAdapter.notifyDataSetChanged();
-        } else {
+        if (response != null) {
+            if (response.getFlightDetails() != null && !response.getFlightDetails().isEmpty()) {
+                mActualList.addAll(response.getFlightDetails());
+            }
+            Meta meta = response.getMeta();
+            if (meta != null && meta.getStatus() != null) {
+                if (meta.getStatus().equalsIgnoreCase(STATUS_PENDING)) {
+                    mPresenter.fetchSearchResults(mSearchTrackId);
+                } else {
+                    hideLoading();
+                    mFlightList.clear();
+                    mFlightList.addAll(mActualList);
+                    mDescending = true;
+                    sortFlightList(SortType.PRICE);
+                    mFlightListAdapter.notifyDataSetChanged();
+                }
+            }
+        }  else {
+            hideLoading();
             DialogUtility.showToast(getActivity(), getString(R.string.no_flights_found));
         }
     }
@@ -199,16 +213,10 @@ public class FlightListFragment extends BaseFragment implements FlightListView {
                         break;
 
                     case DEPARTURE:
-                        long timeInMilliseconds1 = DateUtils.getTimeInMilliseconds(obj1.getFlights().get(0).getDepartureDatetime());
-                        long timeInMilliseconds2 = DateUtils.getTimeInMilliseconds(obj2.getFlights().get(0).getDepartureDatetime());
-                        compareResult = mDescending ? Long.valueOf(timeInMilliseconds2).
-                                compareTo(timeInMilliseconds1) : Long.valueOf(timeInMilliseconds1).
-                                compareTo(timeInMilliseconds2);
-
-                        compareResult = mDescending ? obj1.getFlights().get(0).getDepartureDatetime()
-                                .compareToIgnoreCase(obj2.getFlights().get(0).getDepartureDatetime()) :
-                                obj2.getFlights().get(0).getDepartureDatetime()
-                                        .compareToIgnoreCase(obj1.getFlights().get(0).getDepartureDatetime());
+                        compareResult = mDescending ? obj2.getFlights().get(0).getDepartureDatetime()
+                                .compareToIgnoreCase(obj1.getFlights().get(0).getDepartureDatetime()) :
+                                obj1.getFlights().get(0).getDepartureDatetime()
+                                        .compareToIgnoreCase(obj2.getFlights().get(0).getDepartureDatetime());
 
                         break;
                 }

@@ -1,6 +1,7 @@
 package com.goomo.flight.flightlist;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -95,53 +96,59 @@ public class FlightListAdapter extends RecyclerView.Adapter<FlightListAdapter.Fl
                 mDepartureTime.setText(DateUtils.getTimeFormat(originFlight.getDepartureDatetime()));
                 mArrivalTime.setText(DateUtils.getTimeFormat(destinationFlight.getArrivalDatetime()));
                 mNoOfStops.setText(mContext.getString(R.string.no_of_stops, lastFlightIndex));
-
-                long seconds = TimeUnit.MINUTES.toMillis(flightDetails.getTravelDurationInMinutes()) / 1000;
-                long minutes = seconds / 60;
-                long hours = minutes / 60;
-                long days = hours / 24;
-                // String time = days + ":" + hours % 24 + ":" + minutes % 60 + ":" + seconds % 60;
-
-                StringBuilder timeStringBuilder = new StringBuilder();
-                timeStringBuilder.append(days > 0 ? days + "d " : "")
-                        .append((hours % 24 > 0 || days > 0) ? hours % 24 + "h " : "")
-                        .append(minutes % 60 > 0 ? minutes % 60 + "m " : "");
-
-                mTravelTime.setText(timeStringBuilder.toString());
+                mTravelTime.setText(getDurationString(flightDetails).toString());
                 mTravelOriginDestination.setText(mContext.getString(R.string.
                                 travel_origin_destination, originFlight.getOrigin(),
                         destinationFlight.getDestination()));
-                switch (originFlight.getAirlineCode()) {
-                    case AIRLINE_CODE_AI:
-                        mTravelFlightName.setText(R.string.airline_india);
-                        mFlightImage.setImageResource(R.drawable.air_india_plane);
-                        break;
-
-                    case AIRLINE_CODE_9W:
-                        mTravelFlightName.setText(R.string.go_air);
-                        mFlightImage.setImageResource(R.drawable.go_air);
-                        break;
-
-                    case AIRLINE_CODE_6E:
-                        mTravelFlightName.setText(R.string.indigo);
-                        mFlightImage.setImageResource(R.drawable.indigo);
-                        break;
-
-                    default:
-                        mTravelFlightName.setText(originFlight.getAirlineCode());
-                        mFlightImage.setImageResource(R.drawable.default_plane);
-                        break;
-                }
+                setAirplaneNameAndImage(originFlight);
 
                 Pricing_ pricing = flightDetails.getPricing();
                 int price = (pricing.getAdult() != null ?
                         pricing.getAdult().getPrice().getGrossAmount() : 0) +
                         (pricing.getChild() != null ? pricing.getChild().getPrice().getGrossAmount() : 0) +
                         (pricing.getInfant() != null ? pricing.getInfant().getPrice().getGrossAmount() : 0);
-                //pricing.getInfant().getPrice().getGrossAmount();
 
                 mFlightFare.setText(mContext.getString(R.string.amount_format, price));
             }
+        }
+
+        private void setAirplaneNameAndImage(Flight originFlight) {
+            switch (originFlight.getAirlineCode()) {
+                case AIRLINE_CODE_AI:
+                    mTravelFlightName.setText(R.string.airline_india);
+                    mFlightImage.setImageResource(R.drawable.air_india_plane);
+                    break;
+
+                case AIRLINE_CODE_9W:
+                    mTravelFlightName.setText(R.string.go_air);
+                    mFlightImage.setImageResource(R.drawable.go_air);
+                    break;
+
+                case AIRLINE_CODE_6E:
+                    mTravelFlightName.setText(R.string.indigo);
+                    mFlightImage.setImageResource(R.drawable.indigo);
+                    break;
+
+                default:
+                    mTravelFlightName.setText(originFlight.getAirlineCode());
+                    mFlightImage.setImageResource(R.drawable.default_plane);
+                    break;
+            }
+        }
+
+        @NonNull
+        private StringBuilder getDurationString(FlightDetails flightDetails) {
+            long seconds = TimeUnit.MINUTES.toMillis(flightDetails.getTravelDurationInMinutes()) / 1000;
+            long minutes = seconds / 60;
+            long hours = minutes / 60;
+            long days = hours / 24;
+            // String time = days + ":" + hours % 24 + ":" + minutes % 60 + ":" + seconds % 60;
+
+            StringBuilder timeStringBuilder = new StringBuilder();
+            timeStringBuilder.append(days > 0 ? days + "d " : "")
+                    .append((hours % 24 > 0 || days > 0) ? hours % 24 + "h " : "")
+                    .append(minutes % 60 > 0 ? minutes % 60 + "m " : "");
+            return timeStringBuilder;
         }
     }
 }
