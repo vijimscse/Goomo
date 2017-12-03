@@ -21,7 +21,7 @@
             android:textAllCaps="true" />
 
         <View
-            android:layout_width="@dimen/divider_height"
+            android:layout_width="@dimen/divider_size"
             android:layout_height="match_parent"
             android:background="@color/gray" />
 
@@ -37,7 +37,7 @@
             android:textAllCaps="true" />
 
         <View
-            android:layout_width="@dimen/divider_height"
+            android:layout_width="@dimen/divider_size"
             android:layout_height="match_parent"
             android:background="@color/gray" />
 
@@ -58,7 +58,7 @@
         android:id="@+id/sort_option_divider"
         layout="@layout/divider"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/divider_height"
+        android:layout_height="@dimen/divider_size"
         android:layout_below="@id/sort_options" />
 
     <include

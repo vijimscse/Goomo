@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.goomo.R;
@@ -26,6 +27,7 @@ import butterknife.ButterKnife;
 public class FlightListAdapter extends RecyclerView.Adapter<FlightListAdapter.FlightResultViewHolder> {
     private static final String AIRLINE_CODE_AI = "AI";
     private static final String AIRLINE_CODE_9W = "9W";
+    private static final String AIRLINE_CODE_6E = "6E";
     private Context mContext;
     private List<FlightDetails> mFlightList;
 
@@ -75,6 +77,9 @@ public class FlightListAdapter extends RecyclerView.Adapter<FlightListAdapter.Fl
         @BindView(R.id.travel_flight_name)
         TextView mTravelFlightName;
 
+        @BindView(R.id.flight_image)
+        ImageView mFlightImage;
+
         public FlightResultViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -95,7 +100,7 @@ public class FlightListAdapter extends RecyclerView.Adapter<FlightListAdapter.Fl
                 long minutes = seconds / 60;
                 long hours = minutes / 60;
                 long days = hours / 24;
-               // String time = days + ":" + hours % 24 + ":" + minutes % 60 + ":" + seconds % 60;
+                // String time = days + ":" + hours % 24 + ":" + minutes % 60 + ":" + seconds % 60;
 
                 StringBuilder timeStringBuilder = new StringBuilder();
                 timeStringBuilder.append(days > 0 ? days + "d " : "")
@@ -109,10 +114,22 @@ public class FlightListAdapter extends RecyclerView.Adapter<FlightListAdapter.Fl
                 switch (originFlight.getAirlineCode()) {
                     case AIRLINE_CODE_AI:
                         mTravelFlightName.setText(R.string.airline_india);
+                        mFlightImage.setImageResource(R.drawable.air_india_plane);
                         break;
 
                     case AIRLINE_CODE_9W:
                         mTravelFlightName.setText(R.string.go_air);
+                        mFlightImage.setImageResource(R.drawable.go_air);
+                        break;
+
+                    case AIRLINE_CODE_6E:
+                        mTravelFlightName.setText(R.string.indigo);
+                        mFlightImage.setImageResource(R.drawable.indigo);
+                        break;
+
+                    default:
+                        mTravelFlightName.setText(originFlight.getAirlineCode());
+                        mFlightImage.setImageResource(R.drawable.default_plane);
                         break;
                 }
 

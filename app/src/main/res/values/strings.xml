@@ -23,4 +23,5 @@
     <string name="airline_india">Airline India</string>
     <string name="go_air">Go Air</string>
     <string name="amount_format">₹ %d</string>
+    <string name="indigo">Air Indigo</string>
 </resources>

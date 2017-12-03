@@ -29,7 +29,7 @@ public class FlightListPresenter {
         mView.showLoading();
 
         if (NetworkUtility.isInternetOn(mContext)) {
-            IOManager.fetchSearchResults(searchTrackId,
+            IOManager.fetchFlightResults(searchTrackId,
                     new Callback<FlightResults>() {
                         @Override
                         public void onResponse(Call<FlightResults> call, Response<FlightResults> response) {

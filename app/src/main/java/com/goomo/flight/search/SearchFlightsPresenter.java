@@ -29,7 +29,7 @@ public class SearchFlightsPresenter {
         mView.showLoading();
 
         if (NetworkUtility.isInternetOn(mContext)) {
-            IOManager.initiateSearch(searchRequest,
+            IOManager.fetchSearchTrackId(searchRequest,
                     new Callback<SearchTrackId>() {
                         @Override
                         public void onResponse(Call<SearchTrackId> call, Response<SearchTrackId> response) {

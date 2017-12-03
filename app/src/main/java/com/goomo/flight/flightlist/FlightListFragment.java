@@ -110,7 +110,7 @@ public class FlightListFragment extends BaseFragment implements FlightListView {
             mActualList.clear();
             mActualList.addAll(response.getFlightDetails());
             mFlightList.clear();
-            mFlightList.addAll(response.getFlightDetails());
+            mFlightList.addAll(mActualList);
             mDescending = true;
             sortFlightList(SortType.PRICE);
             mFlightListAdapter.notifyDataSetChanged();

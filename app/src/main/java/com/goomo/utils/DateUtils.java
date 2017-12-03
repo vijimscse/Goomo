@@ -11,10 +11,11 @@ import java.util.Date;
  */
 
 public class DateUtils {
-    public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
-    public static final String TIME_FORMAT = "HH:mm";
-    public static final String HEADER_DATE_INPUT_FORMAT = "yyyy-MM-dd";
-    public static final String HEADER_DATE_OUTPUT_FORMAT = "dd MMM";
+    private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
+    private static final String TIME_FORMAT = "HH:mm";
+    private static final String HEADER_DATE_INPUT_FORMAT = "yyyy-MM-dd";
+    private static final String HEADER_DATE_OUTPUT_FORMAT = "dd MMM";
+    private static final String SEARCH_DATE_PICKER_DATE_FORMAT = "yyyy-MM-dd";
 
     /**
      * @param dateTimeStr
@@ -70,5 +71,14 @@ public class DateUtils {
             }
         }
         return timeInMS;
+    }
+
+    public static String getSearchDateFormat(Date date) {
+        String formattedDate = "";
+        if (date != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat(SEARCH_DATE_PICKER_DATE_FORMAT);
+            formattedDate = sdf.format(date);
+        }
+        return formattedDate;
     }
 }

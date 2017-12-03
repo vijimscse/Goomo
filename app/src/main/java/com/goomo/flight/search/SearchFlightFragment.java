@@ -26,8 +26,8 @@ import com.goomo.dagger.module.SearchFlightsModule;
 import com.goomo.io.dto.request.Location;
 import com.goomo.io.dto.request.SearchRequest;
 import com.goomo.io.dto.response.SearchTrackId;
+import com.goomo.utils.DateUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.inject.Inject;
@@ -44,7 +44,6 @@ public class SearchFlightFragment extends BaseFragment implements SearchFlightsV
     private static final String TAG = SearchFlightFragment.class.getSimpleName();
     private static final String[] mAirportCodes = {"BOM", "DEL", "MAA", "BLR", "GOI", "CCU", "PNQ", "JAI", "IXC", "HYD"};
     private static final String[] mClassTypes = {"ECONOMY", "PREMIUM_ECONOMY", "BUSINESS", "FIRST_CLASS"};
-    private static final String DATE_FORMAT = "yyyy-MM-dd";
 
     @BindView(R.id.source)
     AutoCompleteTextView mSource;
@@ -185,9 +184,7 @@ public class SearchFlightFragment extends BaseFragment implements SearchFlightsV
 
     @Override
     public void updateDepartureDateView(Date time) {
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-
-        mDepartureDate.setText(sdf.format(time));
+        mDepartureDate.setText(DateUtils.getSearchDateFormat(time));
     }
 
     @OnClick(R.id.reverse_direction)

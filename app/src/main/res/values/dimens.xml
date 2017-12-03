@@ -8,7 +8,7 @@
     <dimen name="dimen_5">5dp</dimen>
     <dimen name="dimen_50">50dp</dimen>
     <dimen name="dimen_16">16dp</dimen>
-    <dimen name="divider_height">0.2dp</dimen>
+    <dimen name="divider_size">0.2dp</dimen>
     <dimen name="dimen_20">20dp</dimen>
     <dimen name="journey_divider_width">50dp</dimen>
     <dimen name="dimen_2">2dp</dimen>

@@ -18,9 +18,9 @@ import butterknife.BindView;
 /**
  * Class which is used for searching flights and on selection lead to book a flight.
  */
-public class SearchFlightsActivity extends BaseActivity implements SearchFlightFragment.ISearchFlightFragmentListener {
+public class SearchActivity extends BaseActivity implements SearchFlightFragment.ISearchFlightFragmentListener {
 
-    private static final String TAG = SearchFlightsActivity.class.getSimpleName();
+    private static final String TAG = SearchActivity.class.getSimpleName();
 
     @BindView(R.id.flight_custom_title_container)
     View mCustomTitleContainer;
