@@ -17,7 +17,7 @@ public class FlightResults implements Parcelable
     private Meta meta;
     @SerializedName("results")
     @Expose
-    private List<Result> results = null;
+    private List<FlightDetails> flightDetails = null;
     public final static Creator<FlightResults> CREATOR = new Creator<FlightResults>() {
 
 
@@ -37,7 +37,7 @@ public class FlightResults implements Parcelable
 
     protected FlightResults(Parcel in) {
         this.meta = ((Meta) in.readValue((Meta.class.getClassLoader())));
-        in.readList(this.results, (Result.class.getClassLoader()));
+        in.readList(this.flightDetails, (FlightDetails.class.getClassLoader()));
     }
 
     public FlightResults() {
@@ -51,17 +51,17 @@ public class FlightResults implements Parcelable
         this.meta = meta;
     }
 
-    public List<Result> getResults() {
-        return results;
+    public List<FlightDetails> getFlightDetails() {
+        return flightDetails;
     }
 
-    public void setResults(List<Result> results) {
-        this.results = results;
+    public void setFlightDetails(List<FlightDetails> flightDetails) {
+        this.flightDetails = flightDetails;
     }
 
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeValue(meta);
-        dest.writeList(results);
+        dest.writeList(flightDetails);
     }
 
     public int describeContents() {

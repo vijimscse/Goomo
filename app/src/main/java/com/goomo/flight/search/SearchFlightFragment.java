@@ -72,7 +72,7 @@ public class SearchFlightFragment extends BaseFragment implements SearchFlightsV
     private ISearchFlightFragmentListener mSearchFlightFragmentListener;
 
     public interface ISearchFlightFragmentListener {
-        void onSearchTrackIdReceived(String searchTrackId);
+        void onSearchTrackIdReceived(String searchTrackId, String origindestination, int personCount, String date);
     }
 
     public static SearchFlightFragment newInstance() {
@@ -246,7 +246,9 @@ public class SearchFlightFragment extends BaseFragment implements SearchFlightsV
         if (response.getMeta() != null) {
             String searchTrackId = response.getMeta().getSearchTrackId();
             if (!TextUtils.isEmpty(searchTrackId)) {
-                mSearchFlightFragmentListener.onSearchTrackIdReceived(searchTrackId);
+                mSearchFlightFragmentListener.onSearchTrackIdReceived(searchTrackId,
+                        mSelectedSource + "   -->   " + mSelectedDestination,
+                        1, mDepartureDate.getText().toString());
             }
         }
     }

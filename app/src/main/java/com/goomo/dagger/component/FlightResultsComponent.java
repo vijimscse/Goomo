@@ -1,8 +1,8 @@
 package com.goomo.dagger.component;
 
 import com.goomo.dagger.module.ActivityScope;
-import com.goomo.dagger.module.FlightResultsModule;
-import com.goomo.flight.searchresults.FlightResultsFragment;
+import com.goomo.dagger.module.FlightListModule;
+import com.goomo.flight.flightlist.FlightListFragment;
 
 import dagger.Subcomponent;
 
@@ -12,9 +12,9 @@ import dagger.Subcomponent;
 @ActivityScope
 @Subcomponent
         (
-                modules = FlightResultsModule.class
+                modules = FlightListModule.class
         )
 public interface FlightResultsComponent {
 
-    FlightResultsFragment inject(FlightResultsFragment flightResultsFragment);
+    FlightListFragment inject(FlightListFragment flightListFragment);
 }

@@ -15,5 +15,9 @@
     <string name="select_source_from_suggestions">Select source from given suggestions</string>
     <string name="select_dest_from_suggestions">Select destination from given suggestions</string>
     <string name="select_departure_date">Select departure date</string>
-
+    <string name="loading">Loading...</string>
+    <string name="no_flights_found">There are no flights between the locations you have chosen.</string>
+    <string name="no_of_stops">%d stop(s)</string>
+    <string name="travel_time">* %s</string>
+    <string name="travel_origin_destination">* %s - %s</string>
 </resources>

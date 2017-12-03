@@ -60,9 +60,19 @@ public class IOManager {
         call.enqueue(callback);
     }
 
+    private static Retrofit getJsonRetrofit() {
+        OkHttpClient client = getOkHttpClient();
+
+        return new Retrofit.Builder()
+                .baseUrl("https://api.myjson.com/")
+                .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
+
     public static void fetchSearchResults(String searchTrackId, Callback<FlightResults> callback) {
-        APIEndPoints apiEndPoints = getRetrofit().create(APIEndPoints.class);
-        Call<FlightResults> call = apiEndPoints.fetchSearchResults(searchTrackId);
+        APIEndPoints apiEndPoints = getJsonRetrofit().create(APIEndPoints.class);
+        Call<FlightResults> call = apiEndPoints.fetchSearchResults(/*searchTrackId*/);
         call.enqueue(callback);
     }
 }

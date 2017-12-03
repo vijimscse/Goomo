@@ -1,4 +1,4 @@
-package com.goomo.flight.searchresults;
+package com.goomo.flight.flightlist;
 
 import android.content.Context;
 import android.util.Log;
@@ -14,13 +14,13 @@ import retrofit2.Response;
 /**
  * Created by VijayaLakshmi.IN on 29-11-2017.
  */
-public class FlightResultsPresenter {
+public class FlightListPresenter {
 
-    private static final String TAG = FlightResultsPresenter.class.getSimpleName();
-    private FlightResultsView mView;
+    private static final String TAG = FlightListPresenter.class.getSimpleName();
+    private FlightListView mView;
     private Context mContext;
 
-    public FlightResultsPresenter(FlightResultsView view, Context context) {
+    public FlightListPresenter(FlightListView view, Context context) {
         mView = view;
         mContext = context;
     }
@@ -34,7 +34,7 @@ public class FlightResultsPresenter {
                         @Override
                         public void onResponse(Call<FlightResults> call, Response<FlightResults> response) {
                             mView.hideLoading();
-                            if (response.isSuccessful() && response.body() != null) {
+                            if (response != null && response.isSuccessful() && response.body() != null) {
                                 Log.d(TAG, "" + response.body());
                                 mView.setResponse(response.body());
                             } else {

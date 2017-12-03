@@ -1,7 +1,7 @@
 package com.goomo.dagger.component;
 
 import com.goomo.dagger.module.AppModule;
-import com.goomo.dagger.module.FlightResultsModule;
+import com.goomo.dagger.module.FlightListModule;
 import com.goomo.dagger.module.SearchFlightsModule;
 
 import javax.inject.Singleton;
@@ -21,5 +21,5 @@ public interface AppComponent {
 
     SearchFlightsComponent plus(SearchFlightsModule module);
 
-    FlightResultsComponent plus(FlightResultsModule module);
+    FlightResultsComponent plus(FlightListModule module);
 }

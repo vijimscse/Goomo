@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
  * Created by VijayaLakshmi.IN on 29-11-2017.
  */
 
-public abstract class BaseFragment extends DialogFragment implements BaseView {
+public class BaseFragment extends DialogFragment implements BaseView {
 
     protected ViewGroup mContentContainer;
     private ProgressDialog mLoadingDialog;
@@ -59,6 +59,7 @@ public abstract class BaseFragment extends DialogFragment implements BaseView {
     @Override
     public void showLoading() {
         mLoadingDialog = new ProgressDialog(getActivity());
+        mLoadingDialog.setMessage(getString(R.string.loading));
         mLoadingDialog.setCancelable(false);
         mLoadingDialog.show();
     }

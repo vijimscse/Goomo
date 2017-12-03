@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Result implements Parcelable
+public class FlightDetails implements Parcelable
 {
 
     @SerializedName("travel_plan_id")
@@ -39,24 +39,24 @@ public class Result implements Parcelable
     @SerializedName("special_fare")
     @Expose
     private SpecialFare specialFare;
-    public final static Creator<Result> CREATOR = new Creator<Result>() {
+    public final static Creator<FlightDetails> CREATOR = new Creator<FlightDetails>() {
 
 
         @SuppressWarnings({
             "unchecked"
         })
-        public Result createFromParcel(Parcel in) {
-            return new Result(in);
+        public FlightDetails createFromParcel(Parcel in) {
+            return new FlightDetails(in);
         }
 
-        public Result[] newArray(int size) {
-            return (new Result[size]);
+        public FlightDetails[] newArray(int size) {
+            return (new FlightDetails[size]);
         }
 
     }
     ;
 
-    protected Result(Parcel in) {
+    protected FlightDetails(Parcel in) {
         this.travelPlanId = ((String) in.readValue((String.class.getClassLoader())));
         this.origin = ((String) in.readValue((String.class.getClassLoader())));
         this.destination = ((String) in.readValue((String.class.getClassLoader())));
@@ -68,7 +68,7 @@ public class Result implements Parcelable
         this.specialFare = ((SpecialFare) in.readValue((SpecialFare.class.getClassLoader())));
     }
 
-    public Result() {
+    public FlightDetails() {
     }
 
     public String getTravelPlanId() {
