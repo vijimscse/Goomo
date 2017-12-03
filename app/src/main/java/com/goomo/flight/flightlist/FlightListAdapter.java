@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.goomo.R;
 import com.goomo.io.dto.response.Flight;
 import com.goomo.io.dto.response.FlightDetails;
+import com.goomo.io.dto.response.Pricing_;
 import com.goomo.utils.DateUtils;
 
 import java.util.List;
@@ -23,7 +24,8 @@ import butterknife.ButterKnife;
  */
 
 public class FlightListAdapter extends RecyclerView.Adapter<FlightListAdapter.FlightResultViewHolder> {
-
+    private static final String AIRLINE_CODE_AI = "AI";
+    private static final String AIRLINE_CODE_9W = "9W";
     private Context mContext;
     private List<FlightDetails> mFlightList;
 
@@ -103,7 +105,25 @@ public class FlightListAdapter extends RecyclerView.Adapter<FlightListAdapter.Fl
                 mTravelTime.setText(timeStringBuilder.toString());
                 mTravelOriginDestination.setText(mContext.getString(R.string.
                                 travel_origin_destination, originFlight.getOrigin(),
-                        originFlight.getDestination()));
+                        destinationFlight.getDestination()));
+                switch (originFlight.getAirlineCode()) {
+                    case AIRLINE_CODE_AI:
+                        mTravelFlightName.setText(R.string.airline_india);
+                        break;
+
+                    case AIRLINE_CODE_9W:
+                        mTravelFlightName.setText(R.string.go_air);
+                        break;
+                }
+
+                Pricing_ pricing = flightDetails.getPricing();
+                int price = (pricing.getAdult() != null ?
+                        pricing.getAdult().getPrice().getGrossAmount() : 0) +
+                        (pricing.getChild() != null ? pricing.getChild().getPrice().getGrossAmount() : 0) +
+                        (pricing.getInfant() != null ? pricing.getInfant().getPrice().getGrossAmount() : 0);
+                //pricing.getInfant().getPrice().getGrossAmount();
+
+                mFlightFare.setText(mContext.getString(R.string.amount_format, price));
             }
         }
     }

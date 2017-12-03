@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.goomo.GoomoApplication;
 import com.goomo.R;
@@ -16,13 +17,18 @@ import com.goomo.base.BaseFragment;
 import com.goomo.dagger.module.FlightListModule;
 import com.goomo.io.dto.response.FlightDetails;
 import com.goomo.io.dto.response.FlightResults;
+import com.goomo.io.dto.response.Pricing_;
+import com.goomo.utils.DateUtils;
 import com.goomo.utils.DialogUtility;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by VijayaLakshmi.IN on 25-11-2017.
@@ -32,6 +38,8 @@ public class FlightListFragment extends BaseFragment implements FlightListView {
     private static final String SEARCH_TRACK_ID = "search_track_id";
 
     private ArrayList<FlightDetails> mFlightList = new ArrayList<>();
+    private ArrayList<FlightDetails> mActualList = new ArrayList<>();
+
     private FlightListAdapter mFlightListAdapter;
 
     @Inject
@@ -39,6 +47,25 @@ public class FlightListFragment extends BaseFragment implements FlightListView {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.sort_by_price)
+    TextView mSortByPrice;
+
+    @BindView(R.id.sort_by_duration)
+    TextView mSortByDuration;
+
+    @BindView(R.id.sort_by_departure)
+    TextView mSortByDeparture;
+
+    private boolean mDescending;
+
+    private SortType mPreviousSortType;
+
+    enum SortType {
+        PRICE,
+        DURATION,
+        DEPARTURE
+    }
 
     public static FlightListFragment newInstance(String searchTrackId) {
         FlightListFragment flightListFragment = new FlightListFragment();
@@ -54,7 +81,7 @@ public class FlightListFragment extends BaseFragment implements FlightListView {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         super.onCreateView(inflater, container, savedInstanceState);
-        setLayout(inflater, R.layout.recycler_view);
+        setLayout(inflater, R.layout.fragment_flight_list);
 
         ((GoomoApplication) getActivity().getApplicationContext()).getAppComponent().plus(
                 new FlightListModule(this, this)).inject(this);
@@ -80,11 +107,114 @@ public class FlightListFragment extends BaseFragment implements FlightListView {
     @Override
     public void setResponse(FlightResults response) {
         if (response != null && response.getFlightDetails() != null && !response.getFlightDetails().isEmpty()) {
+            mActualList.clear();
+            mActualList.addAll(response.getFlightDetails());
             mFlightList.clear();
             mFlightList.addAll(response.getFlightDetails());
+            mDescending = true;
+            sortFlightList(SortType.PRICE);
             mFlightListAdapter.notifyDataSetChanged();
         } else {
             DialogUtility.showToast(getActivity(), getString(R.string.no_flights_found));
         }
+    }
+
+    @OnClick({R.id.sort_by_departure, R.id.sort_by_duration, R.id.sort_by_price})
+    public void onSortOptionsClick(View view) {
+        switch (view.getId()) {
+            case R.id.sort_by_departure:
+                if (mPreviousSortType != null && mPreviousSortType == SortType.DEPARTURE) {
+                    mDescending = !mDescending;
+                } else {
+                    mDescending = false;
+                }
+                mSortByDeparture.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, mDescending ?
+                        R.drawable.ic_arrow_drop_up_black_18dp : R.drawable.ic_arrow_drop_down_black_18dp, 0);
+                mSortByDuration.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
+                mSortByPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
+
+                sortFlightList(SortType.DEPARTURE);
+                break;
+
+            case R.id.sort_by_duration:
+                if (mPreviousSortType != null && mPreviousSortType == SortType.DURATION) {
+                    mDescending = !mDescending;
+                } else {
+                    mDescending = false;
+                }
+                mSortByDuration.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, mDescending ?
+                        R.drawable.ic_arrow_drop_up_black_18dp : R.drawable.ic_arrow_drop_down_black_18dp, 0);
+                mSortByDeparture.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
+                mSortByPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
+
+                sortFlightList(SortType.DURATION);
+                break;
+
+            case R.id.sort_by_price:
+                if (mPreviousSortType != null && mPreviousSortType == SortType.PRICE) {
+                    mDescending = !mDescending;
+                } else {
+                    mDescending = false;
+                }
+                mSortByPrice.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, mDescending ?
+                        R.drawable.ic_arrow_drop_up_black_18dp : R.drawable.ic_arrow_drop_down_black_18dp, 0);
+                mSortByDeparture.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
+                mSortByDuration.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, null, null);
+
+                sortFlightList(SortType.PRICE);
+                break;
+        }
+
+        mFlightListAdapter.notifyDataSetChanged();
+    }
+
+    private void sortFlightList(final SortType sortType) {
+        mPreviousSortType = sortType;
+        mFlightList.clear();
+        mFlightList.addAll(mActualList);
+        Collections.sort(mFlightList, new Comparator<FlightDetails>() {
+            public int compare(FlightDetails obj1, FlightDetails obj2) {
+                int compareResult = 0;
+                switch (sortType) {
+                    case PRICE:
+                        Pricing_ pricing1 = obj1.getPricing();
+                        int price1 = (pricing1.getAdult() != null ?
+                                pricing1.getAdult().getPrice().getGrossAmount() : 0) +
+                                (pricing1.getChild() != null ? pricing1.getChild().getPrice().getGrossAmount() : 0) +
+                                (pricing1.getInfant() != null ? pricing1.getInfant().getPrice().getGrossAmount() : 0);
+                        Pricing_ pricing2 = obj2.getPricing();
+                        int price2 = (pricing2.getAdult() != null ?
+                                pricing2.getAdult().getPrice().getGrossAmount() : 0) +
+                                (pricing2.getChild() != null ? pricing2.getChild().getPrice().getGrossAmount() : 0) +
+                                (pricing2.getInfant() != null ? pricing2.getInfant().getPrice().getGrossAmount() : 0);
+                        compareResult = mDescending ? price2 - price1 : price1 - price2;
+
+                        break;
+
+                    case DURATION:
+                        int travelDurationInMinutes2 = obj2.getTravelDurationInMinutes();
+                        int travelDurationInMinutes1 = obj1.getTravelDurationInMinutes();
+                        compareResult = mDescending ? travelDurationInMinutes2 - travelDurationInMinutes1 :
+                                travelDurationInMinutes1 - travelDurationInMinutes2;
+                        break;
+
+                    case DEPARTURE:
+                        long timeInMilliseconds1 = DateUtils.getTimeInMilliseconds(obj1.getFlights().get(0).getDepartureDatetime());
+                        long timeInMilliseconds2 = DateUtils.getTimeInMilliseconds(obj2.getFlights().get(0).getDepartureDatetime());
+                        compareResult = mDescending ? Long.valueOf(timeInMilliseconds2).
+                                compareTo(timeInMilliseconds1) : Long.valueOf(timeInMilliseconds1).
+                                compareTo(timeInMilliseconds2);
+
+                        compareResult = mDescending ? obj1.getFlights().get(0).getDepartureDatetime()
+                                .compareToIgnoreCase(obj2.getFlights().get(0).getDepartureDatetime()) :
+                                obj2.getFlights().get(0).getDepartureDatetime()
+                                        .compareToIgnoreCase(obj1.getFlights().get(0).getDepartureDatetime());
+
+                        break;
+                }
+
+                return compareResult;
+            }
+        });
     }
 }

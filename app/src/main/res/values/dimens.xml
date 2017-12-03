@@ -15,4 +15,7 @@
     <dimen name="dimen_16_sp">16sp</dimen>
     <dimen name="dimen_18_sp">18sp</dimen>
     <dimen name="dimen_4">4dp</dimen>
+    <dimen name="dimen_30">30dp</dimen>
+    <dimen name="small_text_size">12sp</dimen>
+    <dimen name="dimen_40">40dp</dimen>
 </resources>

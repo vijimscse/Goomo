@@ -53,4 +53,22 @@ public class DateUtils {
         }
         return formattedDate;
     }
+
+    /**
+     * @param dateTimeStr
+     * @return
+     */
+    public static long getTimeInMilliseconds(String dateTimeStr) {
+        long timeInMS = 0;
+        if (!TextUtils.isEmpty(dateTimeStr)) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+                Date d = sdf.parse(dateTimeStr);
+                timeInMS = d.getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return timeInMS;
+    }
 }

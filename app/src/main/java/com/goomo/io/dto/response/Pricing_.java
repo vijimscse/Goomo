@@ -3,7 +3,7 @@ package com.goomo.io.dto.response;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -12,10 +12,10 @@ public class Pricing_ implements Parcelable
 
     @SerializedName("child")
     @Expose
-    private Object child;
+    private Child child;
     @SerializedName("infant")
     @Expose
-    private Object infant;
+    private Infant infant;
     @SerializedName("adult")
     @Expose
     private Adult adult;
@@ -49,8 +49,8 @@ public class Pricing_ implements Parcelable
     ;
 
     protected Pricing_(Parcel in) {
-        this.child = ((Object) in.readValue((Object.class.getClassLoader())));
-        this.infant = ((Object) in.readValue((Object.class.getClassLoader())));
+        this.child = ((Child) in.readValue((Child.class.getClassLoader())));
+        this.infant = ((Infant) in.readValue((Infant.class.getClassLoader())));
         this.adult = ((Adult) in.readValue((Adult.class.getClassLoader())));
         this.cancellationFee = ((int) in.readValue((int.class.getClassLoader())));
         this.dateChangeFee = ((int) in.readValue((int.class.getClassLoader())));
@@ -61,19 +61,19 @@ public class Pricing_ implements Parcelable
     public Pricing_() {
     }
 
-    public Object getChild() {
+    public Child getChild() {
         return child;
     }
 
-    public void setChild(Object child) {
+    public void setChild(Child child) {
         this.child = child;
     }
 
-    public Object getInfant() {
+    public Infant getInfant() {
         return infant;
     }
 
-    public void setInfant(Object infant) {
+    public void setInfant(Infant infant) {
         this.infant = infant;
     }
 

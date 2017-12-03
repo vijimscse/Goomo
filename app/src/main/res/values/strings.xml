@@ -20,4 +20,7 @@
     <string name="no_of_stops">%d stop(s)</string>
     <string name="travel_time">* %s</string>
     <string name="travel_origin_destination">* %s - %s</string>
+    <string name="airline_india">Airline India</string>
+    <string name="go_air">Go Air</string>
+    <string name="amount_format">₹ %d</string>
 </resources>
