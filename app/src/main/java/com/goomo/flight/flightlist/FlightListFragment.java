@@ -203,15 +203,25 @@ public class FlightListFragment extends BaseFragment implements FlightListView {
                                 pricing2.getAdult().getPrice().getGrossAmount() : 0) +
                                 (pricing2.getChild() != null ? pricing2.getChild().getPrice().getGrossAmount() : 0) +
                                 (pricing2.getInfant() != null ? pricing2.getInfant().getPrice().getGrossAmount() : 0);
-                        compareResult = mDescending ? price2 - price1 : price1 - price2;
-
+                        if (price2 == price1)
+                            compareResult = 0;
+                        else if (mDescending ? price2 > price1 : price1 > price2)
+                            compareResult = 1;
+                        else
+                            compareResult = -1;
                         break;
 
                     case DURATION:
                         int travelDurationInMinutes2 = obj2.getTravelDurationInMinutes();
                         int travelDurationInMinutes1 = obj1.getTravelDurationInMinutes();
-                        compareResult = mDescending ? travelDurationInMinutes2 - travelDurationInMinutes1 :
-                                travelDurationInMinutes1 - travelDurationInMinutes2;
+                        if (travelDurationInMinutes2 == travelDurationInMinutes1)
+                            compareResult = 0;
+                        else if (mDescending ? travelDurationInMinutes2 > travelDurationInMinutes1 :
+                                travelDurationInMinutes1 > travelDurationInMinutes2)
+                            compareResult = 1;
+                        else
+                            compareResult = -1;
+
                         break;
 
                     case DEPARTURE:
