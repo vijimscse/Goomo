@@ -123,10 +123,10 @@ public class FlightListFragment extends BaseFragment implements FlightListView {
                     mFlightListAdapter.showLoading(false);
                 }
             }
-            mDescending = true;
-            mFlightList.clear();
-            mFlightList.addAll(mActualList);
-            mFlightListAdapter.notifyDataSetChanged();
+            int startIndex = mFlightList.size() - 1;
+            int itemCount = response.getFlightDetails().size();
+            mFlightList.addAll(response.getFlightDetails());
+            mFlightListAdapter.notifyItemRangeInserted(startIndex, itemCount);
         }  else {
             DialogUtility.showToast(getActivity(), getString(R.string.no_flights_found));
         }

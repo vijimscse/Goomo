@@ -44,7 +44,6 @@ public class FlightListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public void showLoading(boolean showLoading) {
         mShowLoading = showLoading;
-        notifyDataSetChanged();
     }
 
     @Override
