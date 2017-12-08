@@ -24,6 +24,7 @@ import com.goomo.utils.DialogUtility;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -111,22 +112,24 @@ public class FlightListFragment extends BaseFragment implements FlightListView {
     @Override
     public void setResponse(FlightResults response) {
         if (response != null) {
-            if (response.getFlightDetails() != null && !response.getFlightDetails().isEmpty()) {
-                mActualList.addAll(response.getFlightDetails());
-            }
-            Meta meta = response.getMeta();
-            if (meta != null && meta.getStatus() != null) {
-                if (meta.getStatus().equalsIgnoreCase(STATUS_PENDING)) {
-                    mFlightListAdapter.showLoading(true);
-                    mPresenter.fetchSearchResults(mSearchTrackId);
-                } else {
-                    mFlightListAdapter.showLoading(false);
+            List<FlightDetails> flightDetails = response.getFlightDetails();
+            if (flightDetails != null && !flightDetails.isEmpty()) {
+                mActualList.addAll(flightDetails);
+
+                Meta meta = response.getMeta();
+                if (meta != null && meta.getStatus() != null) {
+                    if (meta.getStatus().equalsIgnoreCase(STATUS_PENDING)) {
+                        mFlightListAdapter.showLoading(true);
+                        mPresenter.fetchSearchResults(mSearchTrackId);
+                    } else {
+                        mFlightListAdapter.showLoading(false);
+                    }
                 }
+                int startIndex = mFlightList.size() - 1;
+                int itemCount = flightDetails.size();
+                mFlightList.addAll(flightDetails);
+                mFlightListAdapter.notifyItemRangeInserted(startIndex, itemCount);
             }
-            int startIndex = mFlightList.size() - 1;
-            int itemCount = response.getFlightDetails().size();
-            mFlightList.addAll(response.getFlightDetails());
-            mFlightListAdapter.notifyItemRangeInserted(startIndex, itemCount);
         }  else {
             DialogUtility.showToast(getActivity(), getString(R.string.no_flights_found));
         }
