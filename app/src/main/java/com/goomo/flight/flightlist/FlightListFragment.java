@@ -117,18 +117,17 @@ public class FlightListFragment extends BaseFragment implements FlightListView {
             Meta meta = response.getMeta();
             if (meta != null && meta.getStatus() != null) {
                 if (meta.getStatus().equalsIgnoreCase(STATUS_PENDING)) {
+                    mFlightListAdapter.showLoading(true);
                     mPresenter.fetchSearchResults(mSearchTrackId);
                 } else {
-                    hideLoading();
-                    mFlightList.clear();
-                    mFlightList.addAll(mActualList);
-                    mDescending = true;
-                    sortFlightList(SortType.PRICE);
-                    mFlightListAdapter.notifyDataSetChanged();
+                    mFlightListAdapter.showLoading(false);
                 }
             }
+            mDescending = true;
+            mFlightList.clear();
+            mFlightList.addAll(mActualList);
+            mFlightListAdapter.notifyDataSetChanged();
         }  else {
-            hideLoading();
             DialogUtility.showToast(getActivity(), getString(R.string.no_flights_found));
         }
     }

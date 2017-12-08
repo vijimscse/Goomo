@@ -48,7 +48,6 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:foreground="?android:attr/selectableItemBackground"
-            android:drawableRight="@drawable/ic_arrow_drop_down_black_18dp"
             android:gravity="center"
             android:text="Price"
             android:textAllCaps="true" />

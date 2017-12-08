@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.goomo.R;
@@ -25,35 +26,62 @@ import butterknife.ButterKnife;
  * Created by VijayaLakshmi.IN on 03-12-2017.
  */
 
-public class FlightListAdapter extends RecyclerView.Adapter<FlightListAdapter.FlightResultViewHolder> {
+public class FlightListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String AIRLINE_CODE_AI = "AI";
     private static final String AIRLINE_CODE_9W = "9W";
     private static final String AIRLINE_CODE_6E = "6E";
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
+
     private Context mContext;
     private List<FlightDetails> mFlightList;
+    private boolean mShowLoading;
 
     public FlightListAdapter(Context context, List<FlightDetails> flightFlightDetails) {
         mContext = context;
         mFlightList = flightFlightDetails;
     }
 
-    @Override
-    public FlightResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_flight, parent, false);
-
-        return new FlightResultViewHolder(itemView);
+    public void showLoading(boolean showLoading) {
+        mShowLoading = showLoading;
+        notifyDataSetChanged();
     }
 
     @Override
-    public void onBindViewHolder(FlightResultViewHolder holder, int position) {
-        FlightDetails flightDetails = mFlightList.get(position);
-        holder.bindViews(flightDetails);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        switch (viewType) {
+            case VIEW_TYPE_ITEM:
+                view = LayoutInflater.from(mContext).inflate(R.layout.list_item_flight, parent, false);
+                return new FlightResultViewHolder(view);
+
+            case VIEW_TYPE_LOADING:
+                view = LayoutInflater.from(mContext).inflate(R.layout.item_loading, parent, false);
+                return new LoadingViewHolder(view);
+
+        }
+        return null;
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (position == mFlightList.size()) {
+            ((LoadingViewHolder) holder).mProgressBar.setVisibility(mShowLoading ? View.VISIBLE : View.GONE);
+        } else {
+            FlightDetails flightDetails = mFlightList.get(position);
+            ((FlightResultViewHolder) holder).bindViews(flightDetails);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position == mFlightList.size() ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+
     }
 
     @Override
     public int getItemCount() {
-        return mFlightList.size();
+        return mFlightList.size() + 1;
     }
 
     public class FlightResultViewHolder extends RecyclerView.ViewHolder {
@@ -149,6 +177,17 @@ public class FlightListAdapter extends RecyclerView.Adapter<FlightListAdapter.Fl
                     .append((hours % 24 > 0 || days > 0) ? hours % 24 + "h " : "")
                     .append(minutes % 60 > 0 ? minutes % 60 + "m " : "");
             return timeStringBuilder;
+        }
+    }
+
+    public class LoadingViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.progressBar)
+        ProgressBar mProgressBar;
+
+        public LoadingViewHolder(View itemView) {
+            super(itemView);
+
+            ButterKnife.bind(this, itemView);
         }
     }
 }
